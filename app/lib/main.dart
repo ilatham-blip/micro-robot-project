@@ -13,10 +13,20 @@ class MyApp extends StatelessWidget {
       return MaterialApp(
         title: 'Robot App',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink, brightness: Brightness.light),
+          brightness: Brightness.light,
+          primaryColor: Colors.grey,
+          colorScheme: ColorScheme.light(
+          primary: Colors.grey,
+          secondary: Colors.red,
+          ),
         ),
         darkTheme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink, brightness: Brightness.dark, contrastLevel: 1.0),
+          brightness: Brightness.dark,
+          primaryColor: Colors.grey,
+          colorScheme: ColorScheme.dark(
+          primary: Colors.black,
+          secondary: Colors.red,
+          ),
         ),
         themeMode: ThemeMode.system,
         home: MyHomePage(),
@@ -44,6 +54,12 @@ class _MyHomePageState extends State<MyHomePage> {
         page = LandingPage();
       case 1:
         page = Placeholder();
+      case 2:
+        page = Placeholder();
+      case 3:
+        page = Placeholder();
+      case 4:
+        page = Placeholder();
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
@@ -62,12 +78,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   destinations: [
                     NavigationRailDestination(
                       icon: Icon(Icons.home),
-                      label: Text('Home'),
-                    ),
+                      label: Text('Home'),),
                     NavigationRailDestination(
-                      icon: Icon(Icons.route),
-                      label: Text('Path Control'),
-                    ),
+                      icon: Icon(Icons.star),
+                      label: Text('Set-up Wizard'),),
+                    NavigationRailDestination(
+                      icon: Icon(Icons.route), 
+                      label: Text("Robot Controls")),
+                    NavigationRailDestination(
+                      icon: Icon(Icons.polyline), 
+                      label: Text("Sensor Log")),
+                    NavigationRailDestination(
+                      icon: Icon(Icons.camera), 
+                      label: Text("Video Log"))
                   ],
                   selectedIndex: selectedIndex,
                   onDestinationSelected: (value) {
@@ -95,8 +118,9 @@ class LandingPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar:AppBar(title: Text("Animal Inspired Movement and Robotics"),),
       body: Row(children: [
-        Text('Generic Home Page widget')
+        Text('Complete rest of home page in another branch')
       ],)
     );
   }
