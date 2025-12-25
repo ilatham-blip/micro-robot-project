@@ -7,32 +7,18 @@
  * Freenove's official hardware layout.
  */
 
- // ============================================
-// UART0 - Console/Debug Output
-// ============================================
-&uart0 {
-    status = "okay";
-    current-speed = <115200>;
-    tx-pin = <1>;   // GPIO 1 = TX
-    rx-pin = <3>;   // GPIO 3 = RX
-};
-
-// Disable unused UARTs
-&uart1 {
-    status = "disabled";
-};
-
-&uart2 {
-    status = "disabled";
-};
-
- // ============================================
-// WiFi and Bluetooth
-// ============================================
+// Enable WiFi
 &wifi {
     status = "okay";
 };
 
+// Bluetooth
 &bluetooth {
     status = "okay";
+};
+
+// UART
+&uart0 {
+    status = "okay";
+    current-speed = <115200>;
 };

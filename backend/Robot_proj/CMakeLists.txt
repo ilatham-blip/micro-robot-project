@@ -13,5 +13,5 @@ project(Robot_proj)
 target_sources(app PRIVATE
     src/main.c
     src/bluetooth.c
-    src/bluetooth.h
+    #src/wifi_server.c
 )
