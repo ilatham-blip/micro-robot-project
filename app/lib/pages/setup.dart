@@ -33,6 +33,34 @@ class SetupWizardPage extends StatelessWidget {
             // This button handles the scanning logic automatically
             BleConnectButton(bleDriver: bleDriver),
 
+            const SizedBox(height: 20),
+
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white
+              ),
+              onPressed: () async {
+                print("Sending 'T' to Robot...");
+                try{  
+                  // converting 'T' to bytes [84] and sending
+                  await bleDriver.writeToCharacteristic('T'.codeUnits);
+                  print("✅ 'T' Sent!");
+
+                } catch (e) {
+                  print("❌ Failed to send: $e");
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Send failed: $e")),
+                  );
+                }
+                },
+                child: const Text("Test: Send 'T'"),
+              
+
+            ),
+
+
+
             
           ],
         ),
