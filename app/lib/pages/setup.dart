@@ -35,6 +35,8 @@ class SetupWizardPage extends StatelessWidget {
 
             const SizedBox(height: 20),
 
+            // 3. The test button
+            // sends 'T' to robot
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
