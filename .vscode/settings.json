@@ -1,3 +1,5 @@
 {
-  "cmake.sourceDirectory": "/Users/Pnemeth/Desktop/001_SWFB/SWFB_Group_Project/micro-robot-project/firmware/Robot_proj"
+    "terminal.integrated.defaultProfile.windows": "Zephyr IDE Terminal",
+    "C_Cpp.default.compileCommands": "${workspaceFolder}\\.vscode\\compile_commands.json",
+    "cmake.configureOnOpen": false
 }
