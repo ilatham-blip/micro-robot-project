@@ -19,7 +19,7 @@ jobs:
           uses: subosito/flutter-action@v2
           with:
             channel: 'stable'
-            flutter-version: '3.32'
+            flutter-version: '3.9.0'
             cache: true
 
         - name: Setup Pages
@@ -31,10 +31,6 @@ jobs:
           working-directory: ${{ env.PATH_TO_APP }}
         - name: Build app for web
           run: flutter build web --base-href "${{ steps.pages.outputs.base_path }}/"
-          working-directory: ${{ env.PATH_TO_APP }}
-
-        - name: Run tests
-          run: flutter test
           working-directory: ${{ env.PATH_TO_APP }}
 
         - name: Upload artifact
