@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:robot_app/app_state.dart';
-import 'package:robot_app/services/ble_connection/ble_interface.dart';
-import 'services/ble_connection/ble_driver.dart';
-import 'services/ble_connection/ble_switcher.dart';
-import 'app_layout.dart';
 import 'package:provider/provider.dart';
+import 'package:robot_app/app_state.dart';
+import 'app_layout.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final BleInterface bleDriver = getBleDriver();
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +50,7 @@ class MyApp extends StatelessWidget {
         ),
 
         themeMode: ThemeMode.system,
-        home: AppLayout(bleDriver: bleDriver),
+        home: const AppLayout(),
       ),
     );
   }

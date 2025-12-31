@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:robot_app/services/ble_connection/ble_driver.dart';
-import 'package:robot_app/services/ble_connection/ble_interface.dart';
-import 'widgets/ble_status_button.dart';
 
 import 'pages/landing.dart';
 import 'pages/setup.dart';
@@ -12,10 +9,7 @@ import 'pages/video.dart';
 import 'app_state.dart';
 
 class AppLayout extends StatefulWidget {
-  // This is where the choice from the Switcher arrives
-  final BleInterface bleDriver; 
-  
-  const AppLayout({super.key, required this.bleDriver});
+  const AppLayout({super.key});
 
   @override
   State<AppLayout> createState() => _AppLayoutState();
@@ -23,32 +17,24 @@ class AppLayout extends StatefulWidget {
 
 class _AppLayoutState extends State<AppLayout> {
 
+  final pages = const [
+    LandingPage(),
+    SetupWizardPage(),
+    RobotControlsPage(),
+    SensorLogPage(),
+    VideoLogPage(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<MyAppState>(context, listen: true);
     int selectedIndex = appState.pageIndex;
-    // We define 'pages' inside build() so we can access 'widget.bleDriver'
-    final pages = [
-      const LandingPage(),
-      SetupWizardPage(bleDriver: widget.bleDriver),
-      RobotControlsPage(), 
-      SensorLogPage(),     
-      const VideoLogPage(),
-    ];
-
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Simple responsive check: Wide screen = extended rail
         final isWide = constraints.maxWidth >= 600;
 
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('Robot Controller'), 
-            actions: [
-              BleStatusButton(bleDriver: widget.bleDriver)
-            ],
-            ),
-            
+          appBar: AppBar(title: const Text('Robot Controller')),
           body: Row(
             children: [
               SafeArea(
@@ -67,11 +53,11 @@ class _AppLayoutState extends State<AppLayout> {
                       label: Text('Set-up Wizard'),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(Icons.gamepad), // Changed icon to gamepad for controls
+                      icon: Icon(Icons.route),
                       label: Text('Robot Controls'),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(Icons.list_alt), // Changed icon to list for logs
+                      icon: Icon(Icons.polyline),
                       label: Text('Sensor Log'),
                     ),
                     NavigationRailDestination(
@@ -82,7 +68,6 @@ class _AppLayoutState extends State<AppLayout> {
                 ),
               ),
               const VerticalDivider(width: 1),
-              // This displays the selected page from the list above
               Expanded(child: pages[selectedIndex]),
             ],
           ),
