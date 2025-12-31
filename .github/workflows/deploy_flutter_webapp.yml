@@ -1,37 +1,60 @@
-name: Flutter Web Deploy
+name: cicd
+
 on:
   push:
-    branches:
-      - main
+    branches: main
+
+env:
+  PATH_TO_APP : app
+
 jobs:
-  build:    
-    runs-on: ubuntu-latest
+    ci:
+      name: Continuous Integration
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
 
-    steps:
-      - uses: actions/checkout@v3
+        - name: Setup Flutter
+          uses: subosito/flutter-action@v2
+          with:
+            channel: 'stable'
+            flutter-version: '3.32'
+            cache: true
 
-      - name: 'Install Flutter and Dart SDK'
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          flutter-version: 3.3.9
-          cache: true
+        - name: Setup Pages
+          id: pages
+          uses: actions/configure-pages@v5
 
-      - name: 'Flutter enable Web'
-        run: flutter config --enable-web
-        working-directory: app/
+        - name: Install dependencies
+          run: flutter pub get
+          working-directory: ${{ env.PATH_TO_APP }}
+        - name: Build app for web
+          run: flutter build web --base-href "${{ steps.pages.outputs.base_path }}/"
+          working-directory: ${{ env.PATH_TO_APP }}
 
-      - name: 'Get dependencies'
-        run: flutter pub get
-        working-directory: app/
+        - name: Run tests
+          run: flutter test
+          working-directory: ${{ env.PATH_TO_APP }}
 
-      - name: 'Build web app'
-        run: |
-          cd app
-          flutter build web --web-renderer=canvaskit --base-href='/micro-robot-project/' --release
-      
-      - name: 'Deploy web app'
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: app/build/web
+        - name: Upload artifact
+          if: github.ref == 'refs/heads/main'
+          uses: actions/upload-pages-artifact@v3
+          with:
+            path: ${{ env.PATH_TO_APP }}/build/web
+
+    cd:
+      name: Continuous Deployment
+      needs: ci
+      if: github.ref == 'refs/heads/main'
+      runs-on: ubuntu-latest
+      permissions:
+        pages: write
+        id-token: write
+      environment:
+        name: github-pages
+        url: ${{ steps.deployment.outputs.page_url }}
+      steps:
+        - name: Deploy
+          id: deployment
+          uses: actions/deploy-pages@v4
