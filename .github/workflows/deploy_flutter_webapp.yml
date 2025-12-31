@@ -10,9 +10,21 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2
-      - run: flutter build web --release --base-href /flutter_web/
-      - run: git config user.name github-actions
-      - run: git config user.email github-actions@github.com
-      - run: git --work-tree build/web add --all
-      - run: git commit -m "Automatic deployment by github-actions"
-      - run: git push origin HEAD:gh-pages --force
+      - name: action1
+        run: flutter build web --release --base-href /flutter_web/
+        working-directory: app/
+      - name: action2
+        run: git config user.name github-actions
+        working-directory: app/
+      - name: action3
+        run: git config user.email github-actions@github.com
+        working-directory: app/
+      - name: action4
+        run: git --work-tree build/web add --all
+        working-directory: app/
+      - name: action5
+        run: git commit -m "Automatic deployment by github-actions"
+        working-directory: app/
+      - name: action6
+        run: git push origin HEAD:gh-pages --force
+        working-directory: app/
