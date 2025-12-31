@@ -9,22 +9,29 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-      - name: action1
-        run: flutter build web --release --base-href /flutter_web/
+
+      - name: 'Install Flutter and Dart SDK'
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.3.9
+          cache: true
+
+      - name: 'Flutter enable Web'
+        run: flutter config --enable-web
         working-directory: app/
-      - name: action2
-        run: git config user.name github-actions
+
+      - name: 'Get dependencies'
+        run: flutter pub get
         working-directory: app/
-      - name: action3
-        run: git config user.email github-actions@github.com
-        working-directory: app/
-      - name: action4
-        run: git --work-tree build/web add --all
-        working-directory: app/
-      - name: action5
-        run: git commit -m "Automatic deployment by github-actions"
-        working-directory: app/
-      - name: action6
-        run: git push origin HEAD:gh-pages --force
-        working-directory: app/
+
+      - name: 'Build web app'
+        run: |
+          cd app
+          flutter build web --web-renderer=canvaskit --base-href='/micro-robot-project/' --release
+      
+      - name: 'Deploy web app'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: app/build/web
