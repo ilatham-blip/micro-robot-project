@@ -20,7 +20,7 @@ class LandingPage extends StatelessWidget {
             Text("Welcome to Dr Jayaram’s Robotic Setup tool! \nTo get started, please press the setup wizard to configure the micro-robots and control inputs.", style: TextStyle(fontWeight: FontWeight.bold)),
           ],),
         ElevatedButton(onPressed: ()=>appState.changeIndex(1),
-          child: Text("Set-Up Wizard AAAAAAAAAAAA")),
+          child: Text("Set-Up Wizard :)")),
         Row(children: [
           SizedBox(width:15),
           RichText(text: TextSpan(style:DefaultTextStyle.of(context).style,children: const <TextSpan>[
